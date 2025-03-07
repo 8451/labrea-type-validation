@@ -1,73 +1,69 @@
 # Labrea Test
-Utilities for testing code written with [labrea](https://github.com/8451/labrea)
+Type validation for [labrea](https://github.com/8451/labrea) using [pydantic](https://docs.pydantic.dev/latest/)
 
 ![](https://img.shields.io/badge/version-0.0.1-blue.svg)
 [![lifecycle](https://img.shields.io/badge/lifecycle-stable-green.svg)](https://www.tidyverse.org/lifecycle/#stable)
-[![PyPI Downloads](https://img.shields.io/pypi/dm/labrea-test.svg?label=PyPI%20downloads)](https://pypi.org/project/labrea-test/)
+[![PyPI Downloads](https://img.shields.io/pypi/dm/labrea-type-validation.svg?label=PyPI%20downloads)](https://pypi.org/project/labrea-type-validation/)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
-[![Coverage](https://raw.githubusercontent.com/8451/labrea-test/meta/coverage/coverage.svg)](https://github.com/8451/labrea-test/tree/meta/coverage)
-[![docs](https://img.shields.io/badge/docs-latest-brightgreen.svg?style=flat)](https://8451.github.io/labrea-test)
+[![Coverage](https://raw.githubusercontent.com/8451/labrea-type-validation/meta/coverage/coverage.svg)](https://github.com/8451/labrea-type-validation/tree/meta/coverage)
+[![docs](https://img.shields.io/badge/docs-latest-brightgreen.svg?style=flat)](https://8451.github.io/labrea-type-validation)
 
 ## Installation
 Labrea is available for install via pip.
 
 ```bash
-pip install labrea-test
+pip install labrea-type-validation
 ````
 
 Alternatively, you can install the latest development version from GitHub.
 
 ```bash
-pip install git+https://github.com/8451/labrea-test@develop
+pip install git+https://github.com/8451/labrea-type-validation@develop
 ```
 
 ## Usage
 
-During testing, you may want to mock a certain dataset (or other `Evaluatable`) to known value.
-This can be done using the `labrea_test.Mock` context manager, which ensures that at the end
-of the block, any mocking is torn down.
+When creating an `Option` with labrea, specify the expected type using either of the following syntaxes:
 
 ```python
-import labrea_test
-from labrea import dataset
+from labrea import Option
 
-
-@dataset
-def foo() -> str:
-    return "foo"
-
-
-def test_foo():
-    with labrea_test.Mock() as mock:
-        mock(foo, "bar")
-        assert foo() == "bar"
-
-    assert foo() == "foo"
+X = Option("X", type=int)
+Y = Option[int]("Y")
 ```
 
-`Mock` can be used to mock any `Evaluatable` object, and can take a plain value or another
-`Evaluatable` object as the value to mock to.
+To enable type validation, simply import `labrea_type_validation` and call the `enable` function:
 
 ```python
-@dataset
-def bar() -> str:
-    return "bar"
+import labrea_type_validation
 
+Option({"X": "1"})  # No error
 
-def test_foo():
-    with labrea_test.Mock() as mock:
-        mock(foo, bar)
-        assert foo() == "bar"
+labrea_type_validation.enable()
 
-    assert foo() == "foo"
+Option({"X": "1"})  # TypeError: Expected option X to be of type int, got str ("1")
 ```
+
+Type validation can also be used in a `with` statement as a context manager using `enabled`.
+
+```python
+with labrea_type_validation.enabled():
+    Option({"X": "1"})  # TypeError: Expected option X to be of type int, got str ("1")
+```
+
+## Multithreaded Applications
+
+Type validation is based on the `labrea.runtime` module. For this reason, type validation is
+enabled for the current thread and any threads spawned from it. If you are using a multithreaded
+application, ensure that type validation is enabled in the main thread before spawning any new
+threads.
 
 ## Contributing
-If you would like to contribute to **labrea-test**, please read the
+If you would like to contribute to **labrea-type-validation**, please read the
 [Contributing Guide](docs/source/contributing.md).
 
 ## Changelog
-A summary of recent updates to **labrea-test** can be found in the
+A summary of recent updates to **labrea-type-validation** can be found in the
 [Changelog](docs/source/changelog.md).
 
 ## Maintainers
@@ -78,5 +74,5 @@ A summary of recent updates to **labrea-test** can be found in the
 | [Michael Stoepel](https://github.com/michaelstoepel-8451) | michael.stoepel@8451.com |
 
 ## Links
-- Report a bug or request a feature: https://github.com/8451/labrea-test/issues/new/choose
-- Documentation: https://8451.github.io/labrea-test
+- Report a bug or request a feature: https://github.com/8451/labrea-type-validation/issues/new/choose
+- Documentation: https://8451.github.io/labrea-type-validation

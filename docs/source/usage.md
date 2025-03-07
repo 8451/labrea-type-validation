@@ -21,10 +21,10 @@ labrea_type_validation.enable()
 Option({"X": "1"})  # TypeError: Expected option X to be of type int, got str ("1")
 ```
 
-Type validation can also be used in a `with` statement as a context manager.
+Type validation can also be used in a `with` statement as a context manager using `enabled`.
 
 ```python
-with labrea_type_validation.enable():
+with labrea_type_validation.enabled():
     Option({"X": "1"})  # TypeError: Expected option X to be of type int, got str ("1")
 ```
 
