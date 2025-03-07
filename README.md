@@ -1,4 +1,4 @@
-# Labrea Test
+# Labrea Type Validation
 Type validation for [labrea](https://github.com/8451/labrea) using [pydantic](https://docs.pydantic.dev/latest/)
 
 ![](https://img.shields.io/badge/version-0.0.1-blue.svg)
