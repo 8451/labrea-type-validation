@@ -9,7 +9,7 @@ Type validation for [labrea](https://github.com/8451/labrea) using [pydantic](ht
 [![docs](https://img.shields.io/badge/docs-latest-brightgreen.svg?style=flat)](https://8451.github.io/labrea-type-validation)
 
 ## Installation
-Labrea is available for install via pip.
+`labrea-type-validation` is available for install via pip.
 
 ```bash
 pip install labrea-type-validation

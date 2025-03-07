@@ -1,5 +1,5 @@
 # Installation
-Labrea type validation is available for install via pip.
+`labrea-type-validation` is available for install via pip.
 
 ```bash
 pip install labrea-type-validation
