@@ -1,0 +1,90 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "labrea-type-validation"
+authors = [
+    { name = "Austin Warner", email = "austin.warner@8451.com" },
+    { name = "Michael Stoepel", email = "michael.stoepel@8451.com" },
+]
+description = "Type validation in labrea with pydantic."
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: MacOS",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python",
+]
+dependencies = ["labrea>=2.1", "pydantic>=2"]
+dynamic = ["version"]
+
+[project.license]
+file = "LICENSE"
+
+[tool.hatch.version]
+path = "src/labrea_type_validation/_version.py"
+
+[project.urls]
+repository = "https://github.com/8451/labrea-type-validation"
+documentation = "https://8451.github.io/labrea-type-validation"
+bugs = "https://github.com/8451/labrea-type-validation/issues"
+
+[project.optional-dependencies]
+test = ["coverage", "coverage-badge", "pytest", "pytest-cov"]
+doc = [
+    "nbsphinx",
+    "recommonmark",
+    "sphinx",
+    "sphinx_rtd_theme",
+    "sphinxcontrib.napoleon",
+    "myst-parser",
+    "sphinxemoji",
+]
+dev = [
+    "bump2version",
+    "mypy",
+    "black",
+    "flake8>=3.7.9",
+    "pre-commit",
+    "coverage",
+    "labrea-type-validation[test]",
+    "labrea-type-validation[doc]",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests/"]
+
+[tool.mypy]
+plugins = ["labrea.mypy.plugin"]
+
+[tool.black]
+line-length = 88
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+
+[tool.pyright]
+venvPath = "."
+venv = "venv"

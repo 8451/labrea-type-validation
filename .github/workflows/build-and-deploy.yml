@@ -1,0 +1,58 @@
+# This workflow will upload a Python Package using Twine when a release is created
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python#publishing-to-package-registries
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Build & Deploy
+
+on:
+  release:
+    types: [published]
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+  workflow_dispatch:
+    inputs:
+      pre-release-version:
+        description: "Version to set wheel to for pre-release"
+        required: false
+        default: ""
+
+jobs:
+  test:
+    uses: ./.github/workflows/test.yml
+
+  build:
+    uses: ./.github/workflows/build.yml
+    needs: test
+    with:
+      pre-release-version: ${{ inputs.pre-release-version || '' }}
+
+  publish:
+    name: Upload release to PyPI
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ (github.event.release || inputs.pre-release-version) && 'release' || 'test-release' }}
+      url: ${{ vars.RELEASE_URL }}
+    permissions:
+      id-token: write
+    steps:
+      - name: Download Build Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build
+          path: dist/
+      - name: Publish package distributions to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: ${{ vars.RELEASE_REPOSITORY_URL }}
+          skip-existing: ${{ vars.RELEASE_SKIP_EXISTING }}
