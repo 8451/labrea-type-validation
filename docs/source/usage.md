@@ -14,18 +14,18 @@ To enable type validation, simply import `labrea_type_validation` and call the `
 ```python
 import labrea_type_validation
 
-Option({"X": "1"})  # No error
+X({"X": "1"})  # No error
 
 labrea_type_validation.enable()
 
-Option({"X": "1"})  # TypeError: Expected option X to be of type int, got str ("1")
+X({"X": "1"})  # labrea.type_validation.TypeValidationError: Originating in Option('X') | '1' is not of type <class 'int'>)
 ```
 
 Type validation can also be used in a `with` statement as a context manager using `enabled`.
 
 ```python
 with labrea_type_validation.enabled():
-    Option({"X": "1"})  # TypeError: Expected option X to be of type int, got str ("1")
+    X({"X": "1"})  # labrea.type_validation.TypeValidationError: Originating in Option('X') | '1' is not of type <class 'int'>
 ```
 
 ## Multithreaded Applications
