@@ -34,7 +34,7 @@ jobs:
           flake8 src --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
       - name: Test with pytest
         run: |
-          pytest --cov=labrea-type-validation --cov-report=xml
+          pytest --cov=labrea_type_validation --cov-report=xml
       - name: Update coverage badge
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && matrix.python-version == '3.9'}}
         run: |
