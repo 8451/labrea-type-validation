@@ -41,14 +41,30 @@ X({"X": "1"})  # No error
 
 labrea_type_validation.enable()
 
-X({"X": "1"})  # labrea.type_validation.TypeValidationError: Originating in Option('X') | '1' is not of type <class 'int'>
+X({"X": "1"})
+# ...
+# TypeError: Expected type <class 'int'> but got <class 'str'> ('1')
+#
+# The above exception was the direct cause of the following exception:
+#
+# Traceback (most recent call last):
+# ...
+# labrea.exceptions.EvaluationError: Originating in Option('X') | Error during evaluation
 ```
 
 Type validation can also be used in a `with` statement as a context manager using `enabled`.
 
 ```python
 with labrea_type_validation.enabled():
-    X({"X": "1"})  # labrea.type_validation.TypeValidationError: Originating in Option('X') | '1' is not of type <class 'int'>
+    X({"X": "1"})
+# ...
+# TypeError: Expected type <class 'int'> but got <class 'str'> ('1')
+#
+# The above exception was the direct cause of the following exception:
+#
+# Traceback (most recent call last):
+# ...
+# labrea.exceptions.EvaluationError: Originating in Option('X') | Error during evaluation
 ```
 
 ## Multithreaded Applications
