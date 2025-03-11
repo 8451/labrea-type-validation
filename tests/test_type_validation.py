@@ -4,7 +4,7 @@ from typing import List
 
 import labrea_type_validation
 from labrea import Option
-from labrea.type_validation import TypeValidationError
+from labrea.exceptions import EvaluationError
 
 
 def test_enabled():
@@ -20,9 +20,9 @@ def test_enabled():
     with labrea_type_validation.enabled():
         A(good)
         A.validate(good)
-        with pytest.raises(TypeValidationError):
+        with pytest.raises(EvaluationError):
             A(bad)
-        with pytest.raises(TypeValidationError):
+        with pytest.raises(EvaluationError):
             A.validate(bad)
 
     A(good)
@@ -44,7 +44,7 @@ def test_enable():
     labrea_type_validation.enable()
     A(good)
     A.validate(good)
-    with pytest.raises(TypeValidationError):
+    with pytest.raises(EvaluationError):
         A(bad)
-    with pytest.raises(TypeValidationError):
+    with pytest.raises(EvaluationError):
         A.validate(bad)
