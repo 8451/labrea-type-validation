@@ -1,4 +1,5 @@
 import pytest
+import importlib
 
 from typing import List
 
@@ -7,7 +8,7 @@ from labrea import Option
 from labrea.exceptions import EvaluationError
 
 
-def test_enabled():
+def test_enabled(fresh_runtime):
     A = Option[List[int]]("A")
     good = {"A": [1, 2, 3]}
     bad = {"A": [1, 2, "3"]}
@@ -31,7 +32,7 @@ def test_enabled():
     A.validate(bad)
 
 
-def test_enable():
+def test_enable(fresh_runtime):
     A = Option[List[int]]("A")
     good = {"A": [1, 2, 3]}
     bad = {"A": [1, 2, "3"]}
@@ -42,6 +43,21 @@ def test_enable():
     A.validate(bad)
 
     labrea_type_validation.enable()
+    A(good)
+    A.validate(good)
+    with pytest.raises(EvaluationError):
+        A(bad)
+    with pytest.raises(EvaluationError):
+        A.validate(bad)
+
+
+def test_startup(fresh_runtime, environment_variable_set):
+    importlib.reload(labrea_type_validation)
+
+    A = Option[List[int]]("A")
+    good = {"A": [1, 2, 3]}
+    bad = {"A": [1, 2, "3"]}
+
     A(good)
     A.validate(good)
     with pytest.raises(EvaluationError):
