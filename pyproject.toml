@@ -26,7 +26,7 @@ classifiers = [
     "Programming Language :: Python :: 3.13",
     "Programming Language :: Python",
 ]
-dependencies = ["labrea>=2.1", "pydantic>=2"]
+dependencies = ["labrea>=2.1.0b4", "pydantic>=2"]
 dynamic = ["version"]
 
 [project.license]
