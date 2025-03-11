@@ -67,6 +67,8 @@ with labrea_type_validation.enabled():
 # labrea.exceptions.EvaluationError: Originating in Option('X') | Error during evaluation
 ```
 
+Alternatively, the `LABREA_TYPE_VALIDATION_ENABLED` environment variable can be set to `TRUE`.
+
 ## Multithreaded Applications
 
 Type validation is based on the `labrea.runtime` module. For this reason, type validation is
