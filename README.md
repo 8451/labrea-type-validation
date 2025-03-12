@@ -32,6 +32,8 @@ X = Option("X", type=int)
 Y = Option[int]("Y")
 ```
 
+Either literal types or type hints can be used, such as `List[int]` or `Union[str, List[str]]`.
+
 To enable type validation, simply import `labrea_type_validation` and call the `enable` function:
 
 ```python
