@@ -1,7 +1,7 @@
 import pytest
 import importlib
 
-from typing import List
+from typing import List, Type
 
 import labrea_type_validation
 from labrea import Option
@@ -21,9 +21,9 @@ def test_enabled(fresh_runtime):
     with labrea_type_validation.enabled():
         A(good)
         A.validate(good)
-        with pytest.raises(EvaluationError):
+        with pytest.raises(TypeError):
             A(bad)
-        with pytest.raises(EvaluationError):
+        with pytest.raises(TypeError):
             A.validate(bad)
 
     A(good)
@@ -45,9 +45,9 @@ def test_enable(fresh_runtime):
     labrea_type_validation.enable()
     A(good)
     A.validate(good)
-    with pytest.raises(EvaluationError):
+    with pytest.raises(TypeError):
         A(bad)
-    with pytest.raises(EvaluationError):
+    with pytest.raises(TypeError):
         A.validate(bad)
 
 
@@ -60,7 +60,7 @@ def test_startup(fresh_runtime, environment_variable_set):
 
     A(good)
     A.validate(good)
-    with pytest.raises(EvaluationError):
+    with pytest.raises(TypeError):
         A(bad)
-    with pytest.raises(EvaluationError):
+    with pytest.raises(TypeError):
         A.validate(bad)
